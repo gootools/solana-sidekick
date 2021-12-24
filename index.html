@@ -29,7 +29,10 @@
             } else {
               await navigator.serviceWorker.register(WORKER_PATH);
             }
-            window.location.reload();
+
+            // TODO: remove these hacky lines
+            button.innerHTML = `setting and refreshing...`;
+            setTimeout(() => window.location.reload(), 500);
           };
 
           loadData();
