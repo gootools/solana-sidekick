@@ -2,7 +2,7 @@
 
 ### :warning: This is a pre-release! Much more code, docs and tests in the coming week(s)
 
-Demo: https://gootools.github.com/solana-sidekick
+Demo: https://gootools.github.io/solana-sidekick
 
 [sidekick.js](https://github.com/gootools/solana-sidekick/blob/main/sidekick.js) is a [ServiceWorker](https://developers.google.com/web/fundamentals/primers/service-workers) that automatically batches individual Solana JSON RPC requests without requiring you to change your existing code.
 

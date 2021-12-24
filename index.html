@@ -29,8 +29,7 @@
             } else {
               await navigator.serviceWorker.register(WORKER_PATH);
             }
-
-            window.location.reload(true);
+            window.location.reload();
           };
 
           loadData();
