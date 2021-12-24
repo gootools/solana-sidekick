@@ -1,0 +1,55 @@
+<html>
+  <head>
+    <title>Solana Sidekick Demo</title>
+    <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>
+  </head>
+  <body>
+    <p>
+      Open your Network Inspector (mac/chrome: [Opt] + [Cmd] + [i]) and click
+      the button
+    </p>
+
+    <button id="toggle">disable service worker</button>
+
+    <script type="text/javascript">
+      const WORKER_PATH = "sidekick.js";
+
+      const button = document.getElementById("toggle");
+
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.getRegistration(WORKER_PATH).then((worker) => {
+          button.disabled = false;
+
+          button.innerHTML = `${worker ? "disable" : "enable"} service worker`;
+
+          button.onclick = async () => {
+            button.disabled = true;
+            if (worker) {
+              await worker.unregister();
+            } else {
+              await navigator.serviceWorker.register(WORKER_PATH);
+            }
+
+            window.location.reload(true);
+          };
+
+          loadData();
+        });
+      } else {
+        alert("service workers not supported in this browser :(");
+      }
+
+      async function loadData() {
+        const { clusterApiUrl, Connection } = solanaWeb3;
+
+        const connection = new Connection(clusterApiUrl("devnet"));
+
+        await Promise.all([
+          connection.getSlot(),
+          connection.getSlot(),
+          connection.getSlot(),
+        ]);
+      }
+    </script>
+  </body>
+</html>
