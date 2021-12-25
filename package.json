@@ -14,10 +14,16 @@
   },
   "scripts": {
     "build": "tsc",
-    "start": "serve . -p 4444"
+    "start": "serve . -p 4444",
+    "prepare": "husky install"
   },
   "devDependencies": {
+    "husky": "^7.0.4",
+    "prettier": "^2.5.1",
     "serve": "^13.0.2",
     "typescript": "^4.5.4"
+  },
+  "lint-staged": {
+    "*.{ts,js,html,css,json,md}": "prettier --write"
   }
 }
