@@ -67,16 +67,43 @@
       }
 
       async function loadData() {
-        const { clusterApiUrl, Connection } = solanaWeb3;
+        await Promise.all([
+          manualFetch({
+            method: "getSlot",
+            jsonrpc: "2.0",
+            params: [],
+            id: 1,
+          }),
+          manualFetch({
+            method: "getSlot",
+            jsonrpc: "2.0",
+            params: [],
+            id: 1,
+          }),
+          manualFetch([
+            { method: "getSlot", jsonrpc: "2.0", params: [], id: 1 },
+            { method: "getSlot", jsonrpc: "2.0", params: [], id: 1 },
+          ]),
+        ]);
 
+        // (send batched request)
+
+        const { clusterApiUrl, Connection } = solanaWeb3;
         const connection = new Connection(clusterApiUrl("devnet"));
 
-        await Promise.all([
-          connection.getSlot(),
-          connection.getSlot(),
-          connection.getSlot(),
-        ]);
+        await Promise.all([connection.getSlot(), connection.getSlot()]);
+
+        // (send batched request)
       }
+
+      const manualFetch = (body) =>
+        fetch("https://api.devnet.solana.com", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(body),
+        });
     </script>
   </body>
 </html>

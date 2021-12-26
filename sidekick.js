@@ -28,14 +28,18 @@ const debouncedFetch = debounceAndBatch(async (requests) => {
   );
   const { request } = requests[0];
   const response = await fetch(request.url, {
-    body: JSON.stringify(allRequestBodies),
+    body: JSON.stringify(allRequestBodies.flat()),
     headers: request.headers,
     method: request.method,
   });
   const allResults = await response.json();
-  allResults.forEach((result, i) => {
+  for (let i = 0; i < requests.length; i++) {
+    const isArray = Array.isArray(allRequestBodies[i]);
+    const result = isArray
+      ? allResults.splice(0, allRequestBodies[i].length)
+      : allResults.shift();
     requests[i].resolve(new Response(JSON.stringify(result), response));
-  });
+  }
 });
 self.addEventListener("activate", (event) => {
   event.waitUntil(self.clients.claim());
