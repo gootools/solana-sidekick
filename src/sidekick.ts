@@ -71,3 +71,7 @@ self.addEventListener("activate", (event) => {
   event.waitUntil((self as any).clients.claim());
   console.log("sidekick ready!");
 });
+
+self.addEventListener("install", function () {
+  (self as any).skipWaiting();
+});
